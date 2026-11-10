@@ -30,12 +30,16 @@ class ScheduleTabController extends GetxController {
 
   void selectFilter(ScheduleFilter value) => filter.value = value;
 
-  /// Reactive: reads the schedule list and the selected filter.
+  /// Reactive: reads the schedule list, current time, and the selected filter.
   List<ScheduleModel> get filtered {
+    final t = _schedules.now.value;
     final status = filter.value.status;
-    final list = _schedules.schedules
-        .where((s) => status == null || s.status == status)
-        .toList();
+    final list = _schedules.schedules.where((s) {
+      if (filter.value == ScheduleFilter.upcoming) {
+        return s.status == ScheduleStatus.upcoming && s.scheduledAt.isAfter(t);
+      }
+      return status == null || s.status == status;
+    }).toList();
     if (filter.value == ScheduleFilter.upcoming) {
       list.sort((a, b) => a.scheduledAt.compareTo(b.scheduledAt));
     } else {

@@ -60,7 +60,7 @@ class ScheduleService extends GetxService with WidgetsBindingObserver {
   /// The task whose time has arrived and is still running today.
   ScheduleModel? get activeSchedule {
     final t = now.value;
-    final active = schedules.where((s) => s.isActive(t)).toList()
+    final active = schedules.where((s) => s.isActive(t, schedules)).toList()
       ..sort((a, b) => b.scheduledAt.compareTo(a.scheduledAt));
     return active.isEmpty ? null : active.first;
   }
@@ -164,14 +164,28 @@ class ScheduleService extends GetxService with WidgetsBindingObserver {
 
   Future<void> _markMissed() async {
     final t = now.value;
-    final overdue = schedules
-        .where((s) =>
-            s.status == ScheduleStatus.upcoming && !t.isBefore(s.deadline))
-        .toList();
+    final overdue = <ScheduleModel>[];
+
+    for (final s in schedules) {
+      if (s.status != ScheduleStatus.upcoming) continue;
+      if (t.isBefore(s.scheduledAt)) continue;
+
+      final isPastDeadline = !t.isBefore(s.deadline);
+      final hasLaterStartedSchedule = schedules.any((s2) =>
+          s2.id != s.id &&
+          s2.status != ScheduleStatus.cancelled &&
+          s2.scheduledAt.compareTo(s.scheduledAt) > 0 &&
+          !t.isBefore(s2.scheduledAt));
+
+      if (isPastDeadline || hasLaterStartedSchedule) {
+        overdue.add(s);
+      }
+    }
+
     for (final s in overdue) {
-      // The "missed" notification was already scheduled in advance.
+      final missedTime = !t.isBefore(s.deadline) ? s.deadline : t;
       await _replace(
-        s.copyWith(status: ScheduleStatus.missed, missedAt: s.deadline),
+        s.copyWith(status: ScheduleStatus.missed, missedAt: missedTime),
       );
     }
   }

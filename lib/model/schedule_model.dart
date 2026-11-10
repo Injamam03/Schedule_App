@@ -40,11 +40,21 @@ class ScheduleModel {
   bool get canComplete =>
       status == ScheduleStatus.upcoming || status == ScheduleStatus.missed;
 
-  /// Time has arrived, the day is not over and it hasn't been completed.
-  bool isActive(DateTime now) =>
-      status == ScheduleStatus.upcoming &&
-      !now.isBefore(scheduledAt) &&
-      now.isBefore(deadline);
+  /// Time has arrived, the day is not over, it hasn't been completed,
+  /// and no subsequent schedule has become active.
+  bool isActive(DateTime now, [Iterable<ScheduleModel>? allSchedules]) {
+    if (status != ScheduleStatus.upcoming) return false;
+    if (now.isBefore(scheduledAt) || !now.isBefore(deadline)) return false;
+    if (allSchedules != null) {
+      final hasLaterActive = allSchedules.any((s2) =>
+          s2.id != id &&
+          s2.status != ScheduleStatus.cancelled &&
+          s2.scheduledAt.compareTo(scheduledAt) > 0 &&
+          !now.isBefore(s2.scheduledAt));
+      if (hasLaterActive) return false;
+    }
+    return true;
+  }
 
   ScheduleModel copyWith({
     String? title,

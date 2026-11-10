@@ -28,7 +28,7 @@ class ScheduleDetailsController extends GetxController {
   String statusLine(ScheduleModel s) {
     switch (s.status) {
       case ScheduleStatus.upcoming:
-        return s.isActive(now)
+        return s.isActive(now, _service.schedules)
             ? AppConstString.inProgressSince(
                 AppDateUtils.formatDuration(now.difference(s.scheduledAt)))
             : AppConstString.startsIn(
