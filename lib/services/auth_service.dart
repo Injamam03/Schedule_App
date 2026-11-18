@@ -29,12 +29,21 @@ class AuthService extends GetxService {
     user.value = null;
   }
 
-  /// Lets the user pick a profile picture and stores it privately.
-  Future<void> changeAvatar() async {
+  /// Updates the user's name and saves to persistent storage.
+  Future<void> updateName(String newName) async {
+    final current = user.value;
+    if (current == null) return;
+    final trimmed = newName.trim();
+    if (trimmed.isEmpty) return;
+    user.value = await _repo.updateUser(current.copyWith(name: trimmed));
+  }
+
+  /// Lets the user pick a profile picture from gallery or camera and stores it privately.
+  Future<void> changeAvatar([ImageSource source = ImageSource.gallery]) async {
     final current = user.value;
     if (current == null) return;
     final picked = await ImagePicker()
-        .pickImage(source: ImageSource.gallery, imageQuality: 85, maxWidth: 800);
+        .pickImage(source: source, imageQuality: 85, maxWidth: 800);
     if (picked == null) return;
 
     final name =

@@ -47,6 +47,10 @@ class SignInController extends GetxController {
     }
   }
 
+  void continueWithGoogle() {
+    AppSnack.info(AppConstString.googleSignInComingSoon);
+  }
+
   @override
   void onClose() {
     emailController.dispose();

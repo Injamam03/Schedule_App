@@ -34,6 +34,8 @@ class AppConstString {
   static const String password = 'Password';
   static const String passwordHint = 'Enter your password';
   static const String signIn = 'Sign In';
+  static const String continueWithGoogle = 'Continue with Google';
+  static const String googleSignInComingSoon = 'Google Sign-In will be available soon.';
   static const String emailRequired = 'Please enter your email';
   static const String emailInvalid = 'Please enter a valid email address';
   static const String passwordRequired = 'Please enter your password';
@@ -141,6 +143,19 @@ class AppConstString {
       'You missed "$task". If you did it, mark it as complete.';
 
   // Profile
+  static const String editProfile = 'Edit Profile';
+  static const String editProfileSubtitle = 'Update your profile details';
+  static const String changeName = 'Change Name';
+  static const String changeNameSubtitle = 'Update your display name';
+  static const String changeProfilePhoto = 'Change Profile Photo';
+  static const String changeProfilePhotoSubtitle = 'Update your profile picture';
+  static const String choosePhotoSource = 'Choose Photo Source';
+  static const String fromGallery = 'Choose from Gallery';
+  static const String fromCamera = 'Take a Photo';
+  static const String enterName = 'Enter your name';
+  static const String nameRequired = 'Name cannot be empty';
+  static const String nameUpdated = 'Profile name updated.';
+  static const String save = 'Save';
   static const String statistics = 'Statistics';
   static const String thisWeek = 'This Week';
   static const String thisMonth = 'This Month';

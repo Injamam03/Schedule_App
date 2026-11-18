@@ -1,10 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:image_picker/image_picker.dart';
 import 'package:jamal_flutter_app/constant/app_const_string.dart';
 import 'package:jamal_flutter_app/core/theme/theme_controller.dart';
 import 'package:jamal_flutter_app/model/app_user_data.dart';
 import 'package:jamal_flutter_app/model/schedule_model.dart';
 import 'package:jamal_flutter_app/routes/app_routes.dart';
+import 'package:jamal_flutter_app/screens/homeScreen/profileTab/widget/editProfileSheet.dart';
 import 'package:jamal_flutter_app/services/auth_service.dart';
 import 'package:jamal_flutter_app/services/schedule_service.dart';
 import 'package:jamal_flutter_app/utils/app_date_utils.dart';
@@ -53,9 +55,22 @@ class ProfileTabController extends GetxController {
   int get missedCount =>
       _inPeriod.where((s) => s.status == ScheduleStatus.missed).length;
 
-  Future<void> changeAvatar() async {
+  void showEditProfileOptions() => EditProfileSheet.show(this);
+  void showPhotoSourcePicker() => PhotoSourceSheet.show(this);
+
+  Future<void> updateName(String name) async {
     try {
-      await AuthService.to.changeAvatar();
+      await AuthService.to.updateName(name);
+      AppSnack.success(AppConstString.nameUpdated);
+    } catch (e) {
+      AppLog.e('Updating name failed', e);
+      AppSnack.error(AppConstString.somethingWentWrong);
+    }
+  }
+
+  Future<void> changeAvatar([ImageSource source = ImageSource.gallery]) async {
+    try {
+      await AuthService.to.changeAvatar(source);
     } catch (e) {
       AppLog.e('Changing avatar failed', e);
       AppSnack.error(AppConstString.somethingWentWrong);

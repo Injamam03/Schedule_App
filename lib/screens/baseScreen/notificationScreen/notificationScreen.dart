@@ -34,7 +34,7 @@ class NotificationScreen extends GetView<NotificationsController> {
         return ListView.separated(
           padding: EdgeInsets.all(AppSize.pagePadding),
           itemCount: items.length,
-          separatorBuilder: (_, __) => const Gap.v(12),
+          separatorBuilder: (_, _) => const Gap.v(12),
           itemBuilder: (_, i) => _NotificationTile(
             item: items[i],
             isNew: controller.isNew(items[i]),

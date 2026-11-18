@@ -25,18 +25,34 @@ class ProfileTabScreen extends GetView<ProfileTabController> {
         padding: EdgeInsets.fromLTRB(AppSize.pagePadding, 16.h, AppSize.pagePadding, 24.h),
         child: Column(
           children: [
+            Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                CustomText(
+                  AppConstString.navProfile,
+                  fontSize: 24,
+                  fontWeight: FontWeight.w800,
+                ),
+                IconButton(
+                  onPressed: controller.showEditProfileOptions,
+                  icon: Icon(AppIcons.edit, size: AppSize.iconM, color: p.primary),
+                  tooltip: AppConstString.editProfile,
+                ),
+              ],
+            ),
+            const Gap.v(12),
             Obx(() {
               final user = controller.user;
               return Column(
                 children: [
                   Stack(
                     children: [
-                      CustomAvatar(user: user, size: 96, onTap: controller.changeAvatar),
+                      CustomAvatar(user: user, size: 96, onTap: controller.showPhotoSourcePicker),
                       Positioned(
                         right: 0,
                         bottom: 0,
                         child: GestureDetector(
-                          onTap: controller.changeAvatar,
+                          onTap: controller.showPhotoSourcePicker,
                           child: Container(
                             width: 32.w,
                             height: 32.w,
