@@ -201,15 +201,20 @@ class _ChangeNameDialogState extends State<ChangeNameDialog> {
       title: CustomText(AppConstString.changeName, fontSize: 18, fontWeight: FontWeight.w700),
       content: Form(
         key: _formKey,
-        child: CustomTextField(
-          controller: _nameController,
-          label: AppConstString.enterName,
-          prefixIcon: AppIcons.profile,
-          maxLength: 40,
-          textInputAction: TextInputAction.done,
-          onSubmitted: (_) => _submit(),
-          validator: (v) =>
-              (v == null || v.trim().isEmpty) ? AppConstString.nameRequired : null,
+        child: Column(
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            CustomTextField(
+              controller: _nameController,
+              label: AppConstString.enterName,
+              prefixIcon: AppIcons.profile,
+              maxLength: 40,
+              textInputAction: TextInputAction.done,
+              onSubmitted: (_) => _submit(),
+              validator: (v) =>
+                  (v == null || v.trim().isEmpty) ? AppConstString.nameRequired : null,
+            ),
+          ],
         ),
       ),
       actionsPadding: EdgeInsets.fromLTRB(12.w, 0, 12.w, 12.h),
