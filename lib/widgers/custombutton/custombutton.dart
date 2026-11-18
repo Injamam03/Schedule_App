@@ -14,6 +14,7 @@ class CustomButton extends StatelessWidget {
     required this.onTap,
     this.type = CustomButtonType.filled,
     this.icon,
+    this.imagePath,
     this.isLoading = false,
     this.color,
     this.height,
@@ -25,6 +26,7 @@ class CustomButton extends StatelessWidget {
   final VoidCallback? onTap;
   final CustomButtonType type;
   final IconData? icon;
+  final String? imagePath;
   final bool isLoading;
 
   /// Overrides the accent colour of outlined buttons (e.g. destructive).
@@ -70,7 +72,10 @@ class CustomButton extends StatelessWidget {
             child: CircularProgressIndicator(strokeWidth: 2.2, color: foreground),
           )
         else ...[
-          if (icon != null) ...[
+          if (imagePath != null) ...[
+            Image.asset(imagePath!, width: AppSize.iconS, height: AppSize.iconS),
+            const Gap.h(8),
+          ] else if (icon != null) ...[
             Icon(icon, size: AppSize.iconS, color: foreground),
             const Gap.h(8),
           ],

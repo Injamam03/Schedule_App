@@ -5,4 +5,5 @@ class AppImages {
 
   static const String logo = '$_base/logo.png';
   static const String avatarPlaceholder = '$_base/avatar_placeholder.png';
+  static const String googleIcon = '$_base/googleIcon.png';
 }

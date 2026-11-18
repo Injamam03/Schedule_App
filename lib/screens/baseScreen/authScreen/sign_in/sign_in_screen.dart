@@ -100,11 +100,10 @@ class SignInScreen extends GetView<SignInController> {
                               onTap: controller.signIn,
                             )),
                         const Gap.v(12),
-                        // TODO(google_auth): Replace demo icon below with actual Google logo asset (e.g. assets/images/google_logo.png)
                         CustomButton(
                           label: AppConstString.continueWithGoogle,
                           type: CustomButtonType.outlined,
-                          icon: Icons.g_mobiledata_rounded,
+                          imagePath: AppImages.googleIcon,
                           onTap: controller.continueWithGoogle,
                         ),
                         const Gap.v(16),
